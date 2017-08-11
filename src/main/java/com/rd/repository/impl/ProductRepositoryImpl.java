@@ -15,16 +15,18 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public class ProductRepositoryImpl implements ProductRepository {
+public class ProductRepositoryImpl /*implements ProductRepository */{
+/*
 
     @Autowired
     private SessionFactory sessionFactory;
 
+    Session session = null;
+    Transaction transaction = null;
 
     @Override
     public List<Product> getAllProducts() {
-        Session session = null;
-        Transaction transaction = null;
+
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -40,4 +42,37 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
     }
+
+    @Override
+    public boolean addProduct(Product product) {
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(product);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null){
+                session.close();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateProduct(Product product) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteProduct(int id) {
+        return false;
+    }
+
+*/
+
 }
