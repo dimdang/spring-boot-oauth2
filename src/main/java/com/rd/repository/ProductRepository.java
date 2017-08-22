@@ -1,10 +1,6 @@
 package com.rd.repository;
 
 import com.rd.model.Product;
-import com.rd.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,12 +8,11 @@ import java.util.List;
  * Created by Chheng on 3/3/2017.
  */
 
-public interface ProductRepository extends JpaRepository<Product, Integer>{
+public interface ProductRepository {
 
-    /*
-    List<Product> getAllProducts();
-    boolean addProduct(Product product);
-    boolean updateProduct(Product product);
-    boolean deleteProduct(int id);
-    */
+    public List<Product> getAllProducts();
+    public boolean addProduct(Product product);
+    public boolean updateProduct(Product product);
+    public boolean deleteProduct(Product product);
+    public List<Product> finProductById(int id);
 }
