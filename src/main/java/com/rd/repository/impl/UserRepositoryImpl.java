@@ -2,10 +2,7 @@ package com.rd.repository.impl;
 
 import com.rd.model.User;
 import com.rd.repository.UserRepository;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +17,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    Session sessions = null;
+    Transaction transaction = null;
 
     @Override
     public User findByEmail(String username) {
@@ -45,4 +44,26 @@ public class UserRepositoryImpl implements UserRepository {
 
         return user;
     }
+
+    @Override
+    public boolean createUser(User user) {
+        try {
+            sessions = sessionFactory.openSession();
+            transaction = sessions.beginTransaction();
+            sessions.persist(user);
+            transaction.commit();
+            return true;
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        } finally {
+
+            if (sessions != null) {
+                sessions.close();
+            }
+        }
+    }
+
 }
